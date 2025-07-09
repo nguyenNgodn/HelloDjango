@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -9,3 +8,19 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Profile of {self.user.name}"
+
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=150, unique=True)
+    password = models.CharField(max_length=128)  # dùng để lưu password đã hash
+
+    def __str__(self):
+        return f"Account for {self.username}"

@@ -8,8 +8,10 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
-     path('createUser/', views.createUser),
-    path('updateUser/<int:pk>/', views.updateUser),
-    path('patchUser/<int:pk>/', views.partialUpdateUser),
-    path('deleteUser/<int:pk>/', views.deleteUser),  #
+    path('createUser/', views.createUser),
+    # path('updateUser/<int:pk>/', views.updateUser),
+    # path('patchUser/<int:pk>/', views.partialUpdateUser),
+    # path('deleteUser/<int:pk>/', views.deleteUser),
+    path('getUser/<int:user_id>/', views.getUserProfile),
+    path('auth/login/', views.loginAccount),
 ]
