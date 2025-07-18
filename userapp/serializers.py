@@ -1,9 +1,13 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from .models import User, Profile, Account
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import check_password
+from .services.mail_service import send_thank_you_email
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -41,7 +45,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
         account_data['user'] = user
         account_data['password'] = make_password(account_data['password'])
         Account.objects.create(**account_data)
-
+        try:
+            send_thank_you_email.delay(user.email, user.name)
+            print("User created:", user.email, user.name)
+        except Exception as e:
+            logger.error(f"Failed to send email: {e}")
         return user
 
 class LoginAccountSerializer(serializers.Serializer):

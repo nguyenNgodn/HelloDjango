@@ -52,15 +52,15 @@ def createUser(request):
 #         return Response(serializer.data)
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# # DELETE
-# @api_view(['DELETE'])
-# def deleteUser(request, pk):
-#     try:
-#         user = User.objects.get(pk=pk)
-#         user.delete()
-#         return Response({'message': 'User deleted'}, status=status.HTTP_204_NO_CONTENT)
-#     except User.DoesNotExist:
-#         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+# DELETE
+@api_view(['DELETE'])
+def deleteUser(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+        user.delete()
+        return Response({'message': 'User deleted'}, status=status.HTTP_204_NO_CONTENT)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 # get
 @api_view(['GET'])

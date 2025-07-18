@@ -14,17 +14,14 @@ class LogRequestMiddleware(MiddlewareMixin):
 class ExceptionHandlingMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-
     def __call__(self, request):
         try:
             response = self.get_response(request)
-
             if response.status_code >= 400:
                 try:
                     data = response.data if hasattr(response, 'data') else {}
                 except:
                     data = {}
-
                 return JsonResponse({
                     "success": False,
                     "message": data.get("detail", "Something went wrong"),
